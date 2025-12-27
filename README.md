@@ -2,7 +2,7 @@
 
 My Today I Learned snippets, documented with the help of LLMs.
 
-Inspired by [simonw/til](https://github.com/simonw/til).
+Originally from [kiwamizamurai/til](https://github.com/kiwamizamurai/til)
 
 <!-- count starts -->0<!-- count ends --> TILs so far.
 
