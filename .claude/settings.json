@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)"
+    ],
+    "ask": [
+      "Bash(python .claude/skills/til-writing/scripts/update_readme.py)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)"
+    ],
+    "deny": [
+      ".git/**",
+      "**/*.env",
+      "**/credentials*",
+      "**/.env.*"
+    ],
+    "defaultMode": "default"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-commit-secrets.sh",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "python3 $CLAUDE_PROJECT_DIR/.claude/hooks/check-blocklist.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/stop.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/statusline.sh"
+  },
+  "attribution": {
+    "commit": "🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+    "pr": "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+  },
+  "enableAllProjectMcpServers": true,
+  "cleanupPeriodDays": 30
+}
