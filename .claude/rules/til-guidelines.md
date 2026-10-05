@@ -6,6 +6,7 @@ This repository follows the simonw/til format. Use the `til-writing` skill for c
 
 - Category: lowercase with hyphens (`github-actions`, `python`, `sqlite`)
 - Filename: lowercase with hyphens (`using-uv-for-python.md`)
+- Location: `content/<category>/<topic>.md`（Quartz が `content/` を公開する）
 
 ## Workflow
 
