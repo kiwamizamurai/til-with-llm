@@ -1,5 +1,5 @@
 ---
-title: "t-string で SQL インジェクションを型で防ぐ(Python 3.14)"
+title: "t-stringでSQLインジェクションを型で防ぐ(Python 3.14)"
 tags:
   - python
   - python-3-14
@@ -9,7 +9,7 @@ tags:
   - typing
 ---
 
-f-string は便利だが、SQL を組み立てるのに使うと事故が起きる。
+f-stringは便利だが、SQLを組み立てるのに使うと事故が起きる。
 
 ```python
 name = "x' OR '1'='1"
@@ -17,9 +17,9 @@ conn.execute(f"SELECT name FROM users WHERE name = '{name}'").fetchall()
 # → [('alice',), ('bob',), ('carol',)]   全件取れてしまう
 ```
 
-f-string は評価した瞬間にただの `str` になるので、**どこまでが SQL で、どこからが埋め込んだ値なのか**という情報が残らない。だから受け取る側は値をエスケープできない。
+f-stringは評価した時点でただの`str`になる。どこまでがSQLで、どこからが埋め込んだ値なのかという情報が残らないので、受け取る側は値をエスケープできない。
 
-3.14 の t-string(PEP 750)は、`f` を `t` に変えるだけで、文字列ではなく `string.templatelib.Template` を返す。これは「固定の文字列部分」と「埋め込んだ値」を**分けたまま**持っている。
+3.14のt-string(PEP 750)は、`f`を`t`に変えるだけで、文字列ではなく`string.templatelib.Template`を返す。`Template`は「固定の文字列部分」と「埋め込んだ値」を**分けたまま**持っている。
 
 ```python
 name, age = "alice", 20
@@ -33,11 +33,11 @@ list(t)
 #  ' expr=', Interpolation(21, 'age + 1', None, '')]
 ```
 
-`Interpolation` は、評価済みの値(`value`)のほかに、元の式の文字列(`expression`)、`!r` などの変換指定(`conversion`)、`:>5` などの書式指定(`format_spec`)を持っている。**`!r` も `:>5` も適用されずに、そのまま渡ってくる**。どう解釈するかは受け取る関数が決める。
+`Interpolation`は、評価済みの値(`value`)のほかに、元の式の文字列(`expression`)、`!r`などの変換指定(`conversion`)、`:>5`などの書式指定(`format_spec`)を持っている。`!r`も`:>5`も適用されずにそのまま渡ってくるので、どう解釈するかは受け取る関数が決める。
 
-## 小さな SQL ビルダーを作る
+## 小さなSQLビルダーを作る
 
-値を `?` プレースホルダーに置き換え、値そのものは別のリストに分ける関数を書く。`match` で `Interpolation` の種類ごとに振り分けると読みやすい。
+値を`?`プレースホルダーに置き換え、値そのものは別のリストに分ける関数を書く。`match`で`Interpolation`の種類ごとに振り分けると読みやすい。
 
 ```python
 import re
@@ -88,7 +88,7 @@ execute(conn, t"SELECT name FROM users WHERE name = {name}")
 # → []   ただの文字列として比較されるだけ
 ```
 
-リストを渡すと、IN 句のプレースホルダーを要素の数だけ展開する。
+リストを渡すと、IN句のプレースホルダーを要素の数だけ展開する。
 
 ```python
 ids = [1, 3]
@@ -96,7 +96,7 @@ sql(t"SELECT name FROM users WHERE id IN ({ids})")
 # → ('SELECT name FROM users WHERE id IN (?, ?)', [1, 3])
 ```
 
-**t-string は入れ子にできる。** 条件を部品として組み立て、別の t-string の中に埋め込める。値は最後まで値として扱われる。
+t-stringは入れ子にできる。条件を部品として組み立て、別のt-stringの中に埋め込める。値は最後まで値として扱われる。
 
 ```python
 min_age = 18
@@ -105,7 +105,7 @@ sql(t"SELECT name FROM users WHERE {cond} ORDER BY {'age':ident}")
 # → ('SELECT name FROM users WHERE age >= ? ORDER BY "age"', [18])
 ```
 
-テーブル名や列名は `?` にできない(プレースホルダーに使えるのは値だけ)。そこで、**書式指定 `:ident` を「これは識別子です」という印として使い**、正規表現で検査してから埋め込む。書式指定に何を書くかは受け取る側が決められる、という t-string の性質を利用している。
+テーブル名や列名は`?`にできない(プレースホルダーに使えるのは値だけ)。そこで、書式指定`:ident`を「これは識別子です」という印として使い、正規表現で検査してから埋め込む。書式指定に何を書くかは受け取る側が決められる、というt-stringの性質を利用している。
 
 ```python
 table = "users; DROP TABLE users"
@@ -113,9 +113,9 @@ sql(t"SELECT * FROM {table:ident}")
 # ValueError: invalid identifier: 'users; DROP TABLE users'
 ```
 
-## 型チェッカーが f-string を弾いてくれる
+## 型チェッカーがf-stringを弾いてくれる
 
-`execute` の引数を `Template` で型付けしておくと、うっかり f-string を渡したときに型エラーになる。**`t` を `f` に書き間違えたら CI で止まる**。
+`execute`の引数を`Template`で型付けしておくと、うっかりf-stringを渡したときに型エラーになる。`t`を`f`に書き間違えたら、CIで止まる。
 
 ```console
 $ mypy --python-version 3.14 app.py
@@ -127,17 +127,20 @@ app.py:5:15 - error: Argument of type "LiteralString" cannot be assigned to para
 
 ## ハマりどころ
 
-- **実行時の型チェックを省くと、f-string が素通りする。** 上のコードの先頭にある `isinstance` の検査を外すと、`str` もループで回せてしまう(1 文字ずつの `str` として `case str():` に入る)。結果、**f-string が渡されても何のエラーも出ずにインジェクションが成立する**。実際に試すと `[('alice',), ('bob',)]` と全件返ってきた。型チェッカーを通さない呼び出し元もありうるので、実行時の検査は必須。
-- **`str(t)` は SQL を返さない。** `Template` には「文字列に戻す」決まった方法がなく、`str()` すると `Template(strings=(...), interpolations=(...))` という repr が返る。これは設計上の意図で、文字列にする方法はいつも受け取る側が決める。
-- **`Template` と `str` は `+` でつなげない。** `t"a" + "b"` は `TypeError` になる(`t"a" + t"b"` は `Template` になる)。文字列を後から足していくような書き方は、自然と避けられる。
-- **値は t-string を書いた時点で評価される。** 遅延評価ではない。ループの中で作れば、そのたびに評価される。
-- 反復すると空の文字列は飛ばされる。`t"{a}{b}"` の `strings` は `('', '', '')` だが、`list(t)` には `Interpolation` しか出てこない。
+実行時の型チェックを省くと、f-stringが素通りする。上のコードの先頭にある`isinstance`の検査を外すと、`str`もループで回せてしまう(1文字ずつの`str`として`case str():`に入る)。その結果、**f-stringが渡されても何のエラーも出ずにインジェクションが成立する**。実際に試すと`[('alice',), ('bob',)]`と全件返ってきた。型チェッカーを通さない呼び出し元もありうるので、実行時の検査は必須。
+
+ほかに気をつける点は次のとおり。
+
+- `str(t)`はSQLを返さない。`Template`には「文字列に戻す」決まった方法がなく、`str()`すると`Template(strings=(...), interpolations=(...))`というreprが返る。これは設計上の意図で、文字列にする方法はいつも受け取る側が決める。
+- `Template`と`str`は`+`でつなげない。`t"a" + "b"`は`TypeError`になる(`t"a" + t"b"`は`Template`になる)。文字列を後から足していくような書き方は、自然と避けられる。
+- 値はt-stringを書いた時点で評価される。遅延評価ではない。ループの中で作れば、そのたびに評価される。
+- 反復すると空の文字列は飛ばされる。`t"{a}{b}"`の`strings`は`('', '', '')`だが、`list(t)`には`Interpolation`しか出てこない。
 
 ## 実務では
 
-- 自前で SQL を組み立てる小さな関数(社内のバッチ処理、分析用のクエリ)を `Template` しか受け取らない形にしておくと、レビューで「この f-string は安全か」を確かめる手間がなくなる。
-- 同じ考え方は、HTML(値を自動でエスケープする)、シェルのコマンド(値を `shlex.quote` する)、ログ(構造化ログで値を別のフィールドに出す)にもそのまま使える。
-- ただし、本番で使うなら SQLAlchemy などのクエリビルダーで足りることが多い。t-string が効くのは、**生の SQL を書きたいが安全も欲しい**という間の領域。
+自前でSQLを組み立てる小さな関数(社内のバッチ処理、分析用のクエリ)を`Template`しか受け取らない形にしておくと、レビューで「このf-stringは安全か」を確かめる手間がなくなる。同じ考え方は、HTML(値を自動でエスケープする)、シェルのコマンド(値を`shlex.quote`する)、ログ(構造化ログで値を別のフィールドに出す)にもそのまま使える。
+
+ただし、本番で使うならSQLAlchemyなどのクエリビルダーで足りることが多い。t-stringが役に立つのは、生のSQLを書きたいが安全も欲しい、という間の領域だ。
 
 ## References
 

@@ -74,6 +74,19 @@
     "commit": "🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
     "pr": "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
   },
+  "extraKnownMarketplaces": {
+    "yomiyasu": {
+      "source": {
+        "source": "github",
+        "repo": "nanaism/yomiyasu",
+        "ref": "v1.0.2"
+      },
+      "autoUpdate": false
+    }
+  },
+  "enabledPlugins": {
+    "yomiyasu@yomiyasu": true
+  },
   "enableAllProjectMcpServers": true,
   "cleanupPeriodDays": 30
 }
