@@ -58,10 +58,10 @@ while IFS= read -r -d '' file; do
             ((LAST_MONTH_COUNT++)) || true
         fi
     fi
-done < <(find . -name "*.md" -type f ! -path "./.claude/*" ! -path "./.git/*" ! -name "README.md" ! -name "CLAUDE.md" -print0 2>/dev/null)
+done < <(find content -name "*.md" -type f ! -name "index.md" ! -name "*.draft.md" -print0 2>/dev/null)
 
 # Total TIL count
-TOTAL_COUNT=$(find . -name "*.md" -type f ! -path "./.claude/*" ! -path "./.git/*" ! -name "README.md" ! -name "CLAUDE.md" 2>/dev/null | wc -l | tr -d ' ')
+TOTAL_COUNT=$(find content -name "*.md" -type f ! -name "index.md" ! -name "*.draft.md" 2>/dev/null | wc -l | tr -d ' ')
 
 # Format cost
 COST_FMT=$(printf "%.2f" "$COST")

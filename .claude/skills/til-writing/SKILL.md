@@ -11,8 +11,8 @@ Create well-structured TIL entries. Each entry = one focused concept.
 
 ```bash
 # Create entry
-mkdir -p <category>
-# Write to <category>/<topic-slug>.md
+mkdir -p content/<category>
+# Write to content/<category>/<topic-slug>.md
 
 # Update index
 python .claude/skills/til-writing/scripts/update_readme.py
@@ -50,7 +50,7 @@ working code
    - Detailed explanation (fill in as much as possible)
    - Code example (if applicable)
    - References (placeholder or real if known)
-4. Save as `<category>/<topic>.draft.md`
+4. Save as `content/<category>/<topic>.draft.md`
 5. Inform user: "Draft saved. Rename to `.md` when ready."
 
 ## References

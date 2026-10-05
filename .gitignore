@@ -1,1 +1,6 @@
 /blocklist.txt
+# Quartz
+node_modules/
+public/
+.quartz-cache/
+prof/

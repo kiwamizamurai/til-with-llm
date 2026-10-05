@@ -4,6 +4,17 @@ My Today I Learned snippets, documented with the help of LLMs.
 
 Originally from [kiwamizamurai/til](https://github.com/kiwamizamurai/til)
 
+Site: https://kiwamizamurai.github.io/til-with-llm/ (built with [Quartz v4](https://quartz.jzhao.xyz/))
+
+## Development
+
+```sh
+npm ci
+npx quartz build --serve   # http://localhost:8080
+```
+
+TIL は `content/<category>/<topic>.md` に置く。`main` への push で GitHub Pages に deploy される。
+
 <!-- count starts -->0<!-- count ends --> TILs so far.
 
 <!-- index starts -->

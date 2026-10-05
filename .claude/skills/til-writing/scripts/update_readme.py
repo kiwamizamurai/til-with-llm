@@ -45,15 +45,15 @@ def extract_title(filepath: Path) -> str:
 def find_til_entries(root: Path) -> dict:
     """Find all TIL entries grouped by category."""
     entries = defaultdict(list)
-    skip_dirs = {".git", ".claude", "node_modules", "__pycache__", ".venv", "venv"}
+    skip_dirs = {"private", "templates"}
 
-    for item in root.iterdir():
+    for item in (root / "content").iterdir():
         if item.is_dir() and item.name not in skip_dirs and not item.name.startswith("."):
             category = item.name
             for md_file in item.glob("*.md"):
-                if md_file.name.lower() not in ("readme.md", "claude.md") and not md_file.name.endswith(".draft.md"):
+                if md_file.name.lower() != "index.md" and not md_file.name.endswith(".draft.md"):
                     title = extract_title(md_file)
-                    relative_path = f"{category}/{md_file.name}"
+                    relative_path = f"content/{category}/{md_file.name}"
                     date = get_git_creation_date(relative_path, root)
                     entries[category].append({
                         "title": title,
@@ -67,14 +67,15 @@ def find_til_entries(root: Path) -> dict:
     return dict(sorted(entries.items()))
 
 
-def generate_index(entries: dict, repo: str = "kiwamizamurai/til-with-llm") -> str:
+def generate_index(entries: dict, site: str = "https://kiwamizamurai.github.io/til-with-llm") -> str:
     """Generate markdown index from entries."""
     lines = []
     for category, items in entries.items():
         lines.append(f"## {category}")
         lines.append("")
         for item in items:
-            url = f"https://github.com/{repo}/blob/main/{item['path']}"
+            slug = item["path"].removeprefix("content/").removesuffix(".md")
+            url = f"{site}/{slug}"
             lines.append(f"* [{item['title']}]({url}) - {item['date']}")
         lines.append("")
     return "\n".join(lines)

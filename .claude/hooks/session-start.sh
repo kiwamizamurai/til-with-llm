@@ -6,10 +6,10 @@ set -e
 cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || cd "$(pwd)"
 
 # Count total TILs
-TOTAL=$(find . -name "*.md" -type f ! -path "./.claude/*" ! -path "./.git/*" ! -name "README.md" ! -name "CLAUDE.md" 2>/dev/null | wc -l | tr -d ' ')
+TOTAL=$(find content -name "*.md" -type f ! -name "index.md" ! -name "*.draft.md" 2>/dev/null | wc -l | tr -d ' ')
 
 # Get categories
-CATEGORIES=$(find . -maxdepth 1 -type d ! -name ".*" ! -name "node_modules" 2>/dev/null | sed 's|./||' | grep -v '^$' | sort | tr '\n' ', ' | sed 's/,$//')
+CATEGORIES=$(find content -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sed 's|content/||' | grep -v '^$' | sort | tr '\n' ', ' | sed 's/,$//')
 
 # Count this month's TILs
 THIS_MONTH=$(date +%Y-%m)
@@ -21,7 +21,7 @@ while IFS= read -r file; do
             ((THIS_MONTH_COUNT++)) || true
         fi
     fi
-done < <(find . -name "*.md" -type f ! -path "./.claude/*" ! -path "./.git/*" ! -name "README.md" ! -name "CLAUDE.md" 2>/dev/null)
+done < <(find content -name "*.md" -type f ! -name "index.md" ! -name "*.draft.md" 2>/dev/null)
 
 # Encouraging messages based on TIL count
 if [ "$TOTAL" -eq 0 ]; then
