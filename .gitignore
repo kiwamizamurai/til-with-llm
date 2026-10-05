@@ -1,6 +1,4 @@
 /blocklist.txt
-# Quartz
-node_modules/
+# Quartz（scripts/build.sh が取得・生成する）
+.quartz/
 public/
-.quartz-cache/
-prof/
