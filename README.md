@@ -19,7 +19,7 @@ TIL は `content/<category>/<topic>.md` に置く。`main` への push で GitHu
 <!-- index starts -->
 ## python
 
-* [t-string で SQL インジェクションを型で防ぐ(Python 3.14)](https://kiwamizamurai.github.io/til-with-llm/python/t-string-sql-builder) - 2026-10-05
+* [t-stringでSQLインジェクションを型で防ぐ(Python 3.14)](https://kiwamizamurai.github.io/til-with-llm/python/t-string-sql-builder) - 2026-10-06
 <!-- index ends -->
 
 ## Security Hooks

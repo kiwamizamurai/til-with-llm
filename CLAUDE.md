@@ -64,6 +64,8 @@ Use the `web-researcher` agent for comprehensive information gathering.
 
 ## Conventions
 
+- TIL の地の文は `yomiyasu` スキルで推敲する(`.claude/rules/writing.md`。外部プラグインとして `.claude/settings.json` で参照、上流 `nanaism/yomiyasu` の `v1.0.2` に固定)
+
 - Category names: lowercase with hyphens (`github-actions`, `python`)
 - File names: lowercase with hyphens (`using-uv-for-deps.md`)
 - TIL は `content/<category>/<topic>.md` に置く
