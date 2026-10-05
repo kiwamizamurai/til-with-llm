@@ -9,8 +9,7 @@ Site: https://kiwamizamurai.github.io/til-with-llm/ (built with [Quartz v4](http
 ## Development
 
 ```sh
-npm ci
-npx quartz build --serve   # http://localhost:8080
+scripts/build.sh --serve   # http://localhost:8080
 ```
 
 TIL は `content/<category>/<topic>.md` に置く。`main` への push で GitHub Pages に deploy される。

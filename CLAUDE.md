@@ -16,9 +16,8 @@ til-with-llm/
 │   ├── index.md             # トップページ
 │   └── <category>/          # Topic folders (e.g., python/, git/, docker/)
 │       └── <topic>.md       # Individual TIL entries
-├── quartz/                  # Quartz v4 本体（原則触らない）
-├── quartz.config.ts         # サイト設定
-├── quartz.layout.ts         # レイアウト
+├── site/                    # Quartz の設定（quartz.config.ts / quartz.layout.ts）
+├── scripts/build.sh         # Quartz を取得してビルド・プレビュー
 ├── .claude/
 │   ├── skills/til-writing/  # TIL formatting skill
 │   ├── agents/              # Custom subagents
@@ -33,10 +32,10 @@ til-with-llm/
 
 ## Site (Quartz)
 
-- ローカル確認: `npm ci && npx quartz build --serve`
+- ローカル確認: `scripts/build.sh --serve`（Quartz は `.quartz/` に取得される。バージョンは `scripts/build.sh` の `QUARTZ_VERSION`）
 - `main` への push で `.github/workflows/deploy.yml` が GitHub Pages に deploy する
 - ノート間は `[[wikilink]]` でリンクでき、バックリンク・グラフが自動生成される
-- `*.draft.md` は公開対象外（`quartz.config.ts` の `ignorePatterns`）
+- `*.draft.md` は公開対象外（`site/quartz.config.ts` の `ignorePatterns`）
 
 ## Hooks
 
