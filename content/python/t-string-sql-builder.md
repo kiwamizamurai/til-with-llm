@@ -2,6 +2,11 @@
 title: "t-string で SQL インジェクションを型で防ぐ(Python 3.14)"
 tags:
   - python
+  - python-3-14
+  - t-string
+  - sql
+  - security
+  - typing
 ---
 
 f-string は便利だが、SQL を組み立てるのに使うと事故が起きる。
