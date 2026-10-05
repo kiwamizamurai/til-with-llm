@@ -57,7 +57,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Explorer(),
   ],
   right: [
-    Component.Graph(),
+    Component.Graph({
+      // 記事ページのグラフ: 2 段先(同じタグを持つ記事)まで出す。全記事に付く #python は外す
+      localGraph: { depth: 2, removeTags: ["python"] },
+    }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
