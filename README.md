@@ -14,9 +14,12 @@ scripts/build.sh --serve   # http://localhost:8080
 
 TIL は `content/<category>/<topic>.md` に置く。`main` への push で GitHub Pages に deploy される。
 
-<!-- count starts -->0<!-- count ends --> TILs so far.
+<!-- count starts -->1<!-- count ends --> TILs so far.
 
 <!-- index starts -->
+## python
+
+* [t-string で SQL インジェクションを型で防ぐ(Python 3.14)](https://kiwamizamurai.github.io/til-with-llm/python/t-string-sql-builder) - 2026-10-05
 <!-- index ends -->
 
 ## Security Hooks

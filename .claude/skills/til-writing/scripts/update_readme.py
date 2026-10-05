@@ -31,12 +31,19 @@ def get_git_creation_date(filepath: str, cwd: Path) -> str:
 
 
 def extract_title(filepath: Path) -> str:
-    """Extract title from the first line of a markdown file."""
+    """Extract title from front matter `title:`, or from a leading `# ` heading."""
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             first_line = f.readline().strip()
             if first_line.startswith("# "):
                 return first_line[2:].strip()
+            if first_line == "---":
+                for line in f:
+                    line = line.strip()
+                    if line == "---":
+                        break
+                    if line.startswith("title:"):
+                        return line[len("title:"):].strip().strip("\"'")
     except Exception:
         pass
     return filepath.stem.replace("-", " ").title()

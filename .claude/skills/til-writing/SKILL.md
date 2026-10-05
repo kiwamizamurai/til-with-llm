@@ -21,7 +21,11 @@ python .claude/skills/til-writing/scripts/update_readme.py
 ## Entry Structure
 
 ```markdown
-# Clear Title
+---
+title: "Clear Title"
+tags:
+  - <category>
+---
 
 Brief explanation (1-2 paragraphs).
 

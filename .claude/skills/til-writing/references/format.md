@@ -15,7 +15,11 @@
 Every TIL entry follows this structure:
 
 ```markdown
-# Descriptive Title
+---
+title: "Descriptive Title"
+tags:
+  - <category>
+---
 
 Introduction paragraph explaining what you learned and why it matters.
 
