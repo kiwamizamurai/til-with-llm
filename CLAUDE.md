@@ -67,4 +67,4 @@ Use the `web-researcher` agent for comprehensive information gathering.
 - Category names: lowercase with hyphens (`github-actions`, `python`)
 - File names: lowercase with hyphens (`using-uv-for-deps.md`)
 - TIL は `content/<category>/<topic>.md` に置く
-- Each entry starts with `# Title`
+- Each entry starts with front matter `title:` (Quartz のページタイトルになる。本文に `# Title` は書かない)
