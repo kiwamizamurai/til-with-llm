@@ -139,6 +139,10 @@ print("C")                  # 出る(async withは普通に抜ける)
 - `async with`に入る前に`cancel()`を呼んでおくと、入った直後にキャンセルされる。`TaskGroup`を先に作って別の関数に渡し、渡した側から中身をまとめて止められるようにする使い方を想定している。
 - 何度呼んでもよく、`async with`を抜けたあとに呼んでも何も起きない。
 
+## 関連
+
+- [[exception-add-note|add_note()で例外に処理中のファイルと行を書き足す]]: `ExceptionGroup`に入った例外や、同じタスクを複数の場所で`await`したときのメモの扱い
+
 ## References
 
 - [asyncio.TaskGroup.cancel — Python 3.15 docs](https://docs.python.org/3.15/library/asyncio-task.html#asyncio.TaskGroup.cancel)

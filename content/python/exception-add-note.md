@@ -108,6 +108,10 @@ asyncioでも、同じタスクを2か所で`await`してそれぞれメモを�
 - `ExceptionGroup`に足したメモは、`split()`や`subgroup()`で分けたあとの両方のグループにコピーされる。
 - `add_note()`に文字列以外を渡すと`TypeError`になる。ただし`e.__notes__`に直接代入するとその検査はなく、文字列を代入すると、トレースバックにはそのreprの`'oops'`が1行として出る。
 
+## 関連
+
+- [[taskgroup-cancel-first-wins|TaskGroup.cancel()で一番早い応答だけを採用する]]: `TaskGroup`と`except*`で複数のタスクの例外を扱う話
+
 ## References
 
 - [PEP 678 – Enriching Exceptions with Notes](https://peps.python.org/pep-0678/)
