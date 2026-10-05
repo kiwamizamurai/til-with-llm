@@ -7,6 +7,18 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [
     Component.ConditionalRender({
+      component: Component.Comments({
+        provider: "giscus",
+        options: {
+          repo: "kiwamizamurai/til-with-llm",
+          repoId: "R_kgDOPu-9Zw",
+          category: "Announcements",
+          categoryId: "DIC_kwDOPu-9Z84DHHdm",
+        },
+      }),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
       component: Component.RecentNotes({ title: "Recent TILs", limit: 10, showTags: true }),
       condition: (page) => page.fileData.slug === "index",
     }),
