@@ -3,7 +3,7 @@
     "playwright": {
       "command": "npx",
       "args": [
-        "@playwright/mcp@0.0.53",
+        "@playwright/mcp@0.0.83",
         "--headless"
       ]
     },
@@ -11,7 +11,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@upstash/context7-mcp@1.0.33"
+        "@upstash/context7-mcp@4.1.1"
       ]
     }
   }
